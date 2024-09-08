@@ -1,9 +1,9 @@
-from sqlalchemy import MetaData, Table, Column, Integer, String, ForeignKey
+from sqlalchemy import Table, Column, Integer, String, ForeignKey
+from sprint2.konstring import metadata
 
 
-metadata = MetaData()
-users_data = Table("users_date", metadata,
-    Column("user_id", ForeignKey("users.user_id", primary_key=True)),
+users_data = Table("users_data", metadata,
+    Column("user_id", ForeignKey("users.user_id"), primary_key=True),
     Column("phone_number", Integer()),
     Column("password", String(16)),
 )

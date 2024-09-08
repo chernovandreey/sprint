@@ -1,9 +1,10 @@
-from sqlalchemy import MetaData, Table, String, Integer, Column
+from sqlalchemy import Table, String, Integer, Column, ForeignKey
+from sprint2.konstring import metadata
 
-metadata = MetaData()
+
 basket = Table("basket", metadata,
-Column("id", Integer(), primary_key=True, auto_increment=True),
+Column("basket_id", Integer(), primary_key=True, autoincrement=True),
     Column("product", String(200), nullable=False),
     Column("price", Integer(), nullable=False),
-    Column("user", String(50), nullable=False),
+    Column("user", Integer(), ForeignKey("users.user_id")),
 )

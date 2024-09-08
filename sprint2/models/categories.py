@@ -1,7 +1,6 @@
-from sqlalchemy import MetaData, Table, String, Integer, Column
+from sqlalchemy import Table, String, Integer, Column
+from sprint2.konstring import metadata
 
-
-metadata = MetaData()
 categories = Table("categories", metadata,
 Column("category_id", Integer(), primary_key=True),
     Column("departament", String(60), nullable=False),
