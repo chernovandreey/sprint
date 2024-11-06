@@ -14,7 +14,7 @@ try:
     channel.queue_declare(queue='send_notification', durable=True)
 
     order = {
-        "item" : "iphone",
+        "item" : "qwew",
         "price" : 150000,
         "user_id" : 1
     }

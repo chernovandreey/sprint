@@ -1,6 +1,6 @@
 import json
 import pika
-
+import psycopg2
 
 def create_connection():
     return pika.BlockingConnection(pika.ConnectionParameters("localhost"))
@@ -17,6 +17,7 @@ try:
         order = json.loads(body)
         print(f"Получен заказ {order}")
         confirm_order(order)
+        test_order(order)
         update_status(order['user_id'])
         delivery(order)
 
@@ -34,6 +35,21 @@ try:
     def confirm_order(order):
         print(f"Заказ {order['item']} подтверждён")
 
+
+    def test_order(order):
+        try:
+            conn = psycopg2.connect(dbname="orders", user="postgres", password="1234", host="localhost", port="5432")
+            cursor = conn.cursor()
+
+            cursor.execute(f"INSERT INTO orders (item, price, user_id) VALUES ('{order['item']}', {order['price']}, {order['user_id']})")
+            conn.commit()
+        except Exception as r:
+            print(f"Где-то произошла ошибка {r}")
+        finally:
+            cursor.close()
+            conn.close()
+
+
     def update_status(user_id):
         print(f"Заказ клиента {user_id} подтверждён")
 
@@ -48,4 +64,4 @@ try:
     print('Ожидание сообщений. Нажмите CTRL+C для выхода.')
     channel.start_consuming()
 except Exception as e:
-    print("Ошибка в consumer")
+    print(f"Ошибка в consumer {e}")
